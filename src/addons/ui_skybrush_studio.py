@@ -82,8 +82,13 @@ from sbstudio.plugin.operators import (
     SelectFormationOperator,
     SelectStoryboardEntryForCurrentFrameOperator,
     SkybrushExportOperator,
+    SkybrushOfflineExportOperator,
     SkybrushCSVExportOperator,
+<<<<<<< HEAD
     SkybrushPDFExportOperator,
+=======
+    LightExportOperator,
+>>>>>>> rogoz
     SwapColorsInLEDControlPanelOperator,
     TakeoffOperator,
     UpdateFormationOperator,
@@ -173,6 +178,8 @@ operators = (
     SwapColorsInLEDControlPanelOperator,
     ValidateTrajectoriesOperator,
     SkybrushExportOperator,
+    SkybrushOfflineExportOperator,
+    LightExportOperator,
     SkybrushCSVExportOperator,
     SkybrushPDFExportOperator,
     UseSelectedVertexGroupForFormationOperator,

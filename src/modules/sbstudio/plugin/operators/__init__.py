@@ -9,8 +9,10 @@ from .create_takeoff_grid import CreateTakeoffGridOperator
 from .detach_materials_from_template import DetachMaterialsFromDroneTemplateOperator
 from .duplicate_light_effect import DuplicateLightEffectOperator
 from .export_to_csv import SkybrushCSVExportOperator
+from .export_to_skyc_offline import SkybrushOfflineExportOperator
 from .export_to_skyc import SkybrushExportOperator
 from .export_to_pdf import SkybrushPDFExportOperator
+from .light_export import LightExportOperator
 from .fix_constraint_ordering import FixConstraintOrderingOperator
 from .get_formation_stats import GetFormationStatisticsOperator
 from .land import LandOperator
@@ -68,6 +70,8 @@ __all__ = (
     "SkybrushExportOperator",
     "SkybrushCSVExportOperator",
     "SkybrushPDFExportOperator",
+    "SkybrushOfflineExportOperator",
+    "LightExportOperator",
     "SwapColorsInLEDControlPanelOperator",
     "UpdateFormationOperator",
     "UpdateFrameRangeFromStoryboardOperator",

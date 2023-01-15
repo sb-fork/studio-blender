@@ -2,11 +2,15 @@ import bpy
 
 from bpy.types import Panel
 
+<<<<<<< HEAD
 from sbstudio.plugin.operators import (
     SkybrushExportOperator,
     SkybrushCSVExportOperator,
     SkybrushPDFExportOperator,
 )
+=======
+from sbstudio.plugin.operators import SkybrushExportOperator, SkybrushCSVExportOperator,SkybrushOfflineExportOperator, SkybrushCSVExportOperator,LightExportOperator
+>>>>>>> rogoz
 
 __all__ = ("ExportPanel",)
 
@@ -34,8 +38,14 @@ class ExportPanel(Panel):
         if settings:
             layout.prop(settings, "show_type")
 
+
         layout.operator(SkybrushExportOperator.bl_idname, text="Export to .skyc")
+        layout.operator(SkybrushOfflineExportOperator.bl_idname, text="Export to .skyc(offline)")
         layout.operator(SkybrushCSVExportOperator.bl_idname, text="Export to .csv")
+<<<<<<< HEAD
         layout.operator(
             SkybrushPDFExportOperator.bl_idname, text="Export validation report"
         )
+=======
+        layout.operator(LightExportOperator.bl_idname, text = "light Export")
+>>>>>>> rogoz

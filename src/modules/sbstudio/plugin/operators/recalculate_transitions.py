@@ -1,14 +1,16 @@
+from cmath import cos
 from dataclasses import dataclass
 from enum import Enum
 from math import inf
 from typing import Iterable, List, Optional, Sequence, Tuple
-
 import bpy
-
+import math
 from bpy.props import EnumProperty
-
+import numpy as np
+import time
+import sys
+from sbstudio.math.formation_mapping import smart_transition_mapper,optimal_transition_mapper, max_distance_calculator, square_euclidean_cost
 from sbstudio.api.errors import SkybrushStudioAPIError
-from sbstudio.api.types import Mapping
 from sbstudio.errors import SkybrushStudioError
 from sbstudio.plugin.actions import (
     ensure_action_exists_for_object,
@@ -34,6 +36,12 @@ from sbstudio.utils import constant
 from .base import StoryboardOperator
 
 __all__ = ("RecalculateTransitionsOperator",)
+
+
+Mapping = List[Optional[int]]
+"""Type alias for mappings from drone indices to the corresponding target
+marker indices.
+"""
 
 
 class InfluenceCurveTransitionType(Enum):
@@ -184,8 +192,7 @@ class _LazyFormationObjectList:
 
     def _validate_items(self) -> list:
         return list(self._formation.objects) if self._formation else []
-
-
+        
 def get_coordinates_of_formation(formation, *, frame: int) -> List[Tuple[float, ...]]:
     """Returns the coordinates of all the markers in the given formation at the
     given frame as a list of triplets.
@@ -196,7 +203,6 @@ def get_coordinates_of_formation(formation, *, frame: int) -> List[Tuple[float, 
             formation, frame=frame
         )
     ]
-
 
 def calculate_mapping_for_transition_into_storyboard_entry(
     entry: StoryboardEntry, source, *, num_targets: int
@@ -241,7 +247,7 @@ def calculate_mapping_for_transition_into_storyboard_entry(
         # Auto mapping with our API
         target = get_coordinates_of_formation(formation, frame=entry.frame_start)
         try:
-            match, clearance = get_api().match_points(source, target, radius=0)
+            match = get_api().match_points(source, target)
         except Exception as ex:
             if not isinstance(ex, SkybrushStudioAPIError):
                 raise SkybrushStudioAPIError from ex
@@ -252,10 +258,34 @@ def calculate_mapping_for_transition_into_storyboard_entry(
         # index of the drone that the i-th target point was matched to, or
         # ``None`` if the target point was left unmatched. We need to invert
         # the mapping
-        for target_index, drone_index in enumerate(match):
+        for target_index, drone_index in enumerate(match[0]):
             if drone_index is not None:
-                result[drone_index] = target_index
-
+                result[drone_index] = target_index   
+        Skyc_cost = max_distance_calculator(np.array(source), np.array(target), result)
+        print("Skyc Max Distance:", Skyc_cost)
+        print("Skyc Order:", result)
+    elif entry.transition_type == "HUNGARY":
+        target = get_coordinates_of_formation(formation, frame=entry.frame_start)
+        length = min(num_drones, num_targets)
+        source_array = np.array(source)
+        target_array = np.array(target)
+        t0= time.time()
+        order, cost = smart_transition_mapper(source_array, target_array, square_euclidean_cost)
+        print("Hungarian Max Distance:", cost)
+        print("Hungarian Order:", order)
+        print("taken time", (time.time() - t0)) # t is wall seconds elapsed (floating point)
+        result[:length] = order
+    elif entry.transition_type == "FAIR-HUNGARY":
+        target = get_coordinates_of_formation(formation, frame=entry.frame_start)
+        length = min(num_drones, num_targets)
+        source_array = np.array(source)
+        target_array = np.array(target)
+        t0= time.time()
+        order, cost = optimal_transition_mapper(source_array, target_array)
+        print("Fair Hungarian Max Distance:", cost)
+        print("Fair Hungarian Order:", order)
+        print("taken time", (time.time() - t0))
+        result[:length] = order
     else:
         # Manual mapping
         length = min(num_drones, num_targets)
