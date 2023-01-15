@@ -84,11 +84,8 @@ from sbstudio.plugin.operators import (
     SkybrushExportOperator,
     SkybrushOfflineExportOperator,
     SkybrushCSVExportOperator,
-<<<<<<< HEAD
     SkybrushPDFExportOperator,
-=======
     LightExportOperator,
->>>>>>> rogoz
     SwapColorsInLEDControlPanelOperator,
     TakeoffOperator,
     UpdateFormationOperator,
