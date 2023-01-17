@@ -1,5 +1,5 @@
 [tool.poetry]
-name = "skybrush-studio-for-blender"
+name = "flyai-studio-for-blender"
 version = "2.7.0"
 description = "Skybrush Studio for Blender is a professional drone show designer framework integrated into Blender"
 license = "GPL-3.0-or-later"
@@ -26,6 +26,7 @@ skybrush-studio = { version = "^3.5.0", optional = true, source = "collmot" }
 
 [tool.poetry.extras]
 standalone = ["skybrush-studio"]
+ls
 
 [tool.poetry.dev-dependencies]
 pyclean = "^2.0.0"
