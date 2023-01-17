@@ -1,5 +1,5 @@
 bl_info = {
-    "name": "Skybrush Studio",
+    "name": "FlyAi Studio",
     "author": "CollMot Robotics Ltd.",
     "description": "Extends Blender with UI components for drone show design",
     "version": (2, 7, 0),
