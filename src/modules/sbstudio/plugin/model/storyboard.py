@@ -77,6 +77,7 @@ class StoryboardEntry(PropertyGroup):
             ("AUTO", "Auto", "", 2),
             ("HUNGARY", "Hungary","", 3),
             ("FAIR-HUNGARY", "Fair-Hungary","", 4),
+            ("Partly-Auto", "Partly-Auto","",5),
         ],
         name="Type",
         description="Type of transition between the previous formation and this one. "

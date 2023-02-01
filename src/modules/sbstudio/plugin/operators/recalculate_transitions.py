@@ -286,6 +286,20 @@ def calculate_mapping_for_transition_into_storyboard_entry(
         print("Fair Hungarian Order:", order)
         print("taken time", (time.time() - t0))
         result[:length] = order
+    elif entry.transition_type == "Partly-Auto":
+        target = get_coordinates_of_formation(formation, frame=entry.frame_start)
+        auto_source = []
+        auto_targt = []
+        auto_fake_order = []
+        for index,loc in enumerate(source):
+            if (loc != target[index]):
+                auto_source.append(loc)
+                auto_targt.append(target[index])
+                auto_order , auto_cost = smart_transition_mapper(np.array(auto_source), np.array(auto_targt), square_euclidean_cost)
+                auto_fake_order.append(index)
+        result = list(range(len(source)))
+        for index, i in enumerate(auto_fake_order):		
+            result[i] = auto_fake_order[auto_order[index]]
     else:
         # Manual mapping
         length = min(num_drones, num_targets)
