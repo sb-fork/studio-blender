@@ -2,7 +2,7 @@ bl_info = {
     "name": "FlyAi Studio",
     "author": "CollMot Robotics Ltd.",
     "description": "Extends Blender with UI components for drone show design",
-    "version": (2, 7, 0),
+    "version": (2, 7, 1),
     "blender": (2, 93, 0),
     "category": "Interface",
     "doc_url": "https://doc.collmot.com/public/skybrush-studio-for-blender/latest/",
