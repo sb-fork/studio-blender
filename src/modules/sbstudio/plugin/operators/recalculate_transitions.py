@@ -261,9 +261,6 @@ def calculate_mapping_for_transition_into_storyboard_entry(
         for target_index, drone_index in enumerate(match[0]):
             if drone_index is not None:
                 result[drone_index] = target_index   
-        Skyc_cost = max_distance_calculator(np.array(source), np.array(target), result)
-        print("Skyc Max Distance:", Skyc_cost)
-        print("Skyc Order:", result)
     elif entry.transition_type == "HUNGARY":
         target = get_coordinates_of_formation(formation, frame=entry.frame_start)
         length = min(num_drones, num_targets)
