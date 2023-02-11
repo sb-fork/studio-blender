@@ -293,7 +293,7 @@ def _get_vectors(
         for frame in range(frame_range[0], frame_range[1] + frame_range[2], frame_range[2]):
             context.scene.frame_set(frame)
             vectors.append(list(_get_location(obj)))
-        lats, longs, alts = convert_vectors_to_latlon(vectors, 52.4025517, 16.9488291)
+        lats, longs, alts = convert_vectors_to_latlon(vectors, settings["base_latitude"], settings["base_longtitude"])
         data.append([lats,longs,alts])
 
     return data
@@ -469,6 +469,26 @@ class SkybrushKMLExportOperator(Operator, ExportHelper):
     bl_label = "Export KML File"
     bl_options = {"REGISTER"}
 
+    lattitude = FloatProperty(
+        name="base-latitude",
+        description="Lattitude of the base point",
+        default= 52.4025517,
+        soft_min= -90,
+        soft_max= 90,
+        precision= 7,
+        # unit="LENGTH",
+    )
+
+    longtitude = FloatProperty(
+        name="base-longtitude",
+        description="Longtitude of the base point",
+        default= 16.9488291,
+        soft_min= -180,
+        soft_max= 180,
+        precision= 7,
+        # unit="LENGTH",
+    )
+
     # List of file extensions that correspond to Skybrush CSV files (zipped)
     filter_glob = StringProperty(default="*.kml", options={"HIDDEN"})
     filename_ext = ".kml"
@@ -499,6 +519,8 @@ class SkybrushKMLExportOperator(Operator, ExportHelper):
             "export_selected": self.export_selected,
             "frame_range": self.frame_range,
             "output_fps": self.output_fps,
+            "base_latitude" : self.lattitude,
+            "base_longtitude": self.longtitude,
         }
 
         if os.path.basename(filepath).lower() == self.filename_ext.lower():
