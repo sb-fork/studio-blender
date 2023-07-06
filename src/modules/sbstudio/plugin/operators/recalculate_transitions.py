@@ -273,7 +273,7 @@ def calculate_mapping_for_transition_into_storyboard_entry(
         order, cost = smart_transition_mapper(source_array, target_array, square_euclidean_cost)
         print("Hungarian Max Distance:", cost)
         print("Hungarian Order:", order)
-        print("taken time", (time.time() - t0)) # t is wall seconds elapsed (floating point)
+        print("calculation time : {:.3f}".format(time.time() - t0)) # t is wall seconds elapsed (floating point)
         result[:length] = order
     elif entry.transition_type == "FAIR-HUNGARY":
         target = get_coordinates_of_formation(formation, frame=entry.frame_start)
@@ -284,7 +284,7 @@ def calculate_mapping_for_transition_into_storyboard_entry(
         order, cost = optimal_transition_mapper(source_array, target_array)
         print("Fair Hungarian Max Distance:", cost)
         print("Fair Hungarian Order:", order)
-        print("taken time", (time.time() - t0))
+        print("calculation time : {:.3f}".format(time.time() - t0))
         result[:length] = order
     else:
         # Manual mapping
